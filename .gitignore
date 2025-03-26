@@ -164,3 +164,7 @@ test*
 
 # Exported Data
 data/
+
+interview/
+localtest*
+request_testing.py
