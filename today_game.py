@@ -4,13 +4,14 @@ from nba_api.live.nba.endpoints import scoreboard
 from nba_api.live.nba.endpoints import boxscore
 
 import pandas as pd
-import json
+# import json
+from utils import json_to_file
 # print(date.today())
 
-def json_to_file(f_name, sometext):
-    json_object = json.dumps(sometext, indent=4)
-    with open(f'data/{f_name}.json', "w") as outfile:
-        outfile.write(json_object)
+# def json_to_file(f_name, sometext):
+#     json_object = json.dumps(sometext, indent=4)
+#     with open(f'data/{f_name}.json', "w") as outfile:
+#         outfile.write(json_object)
 
 def box_score_search(gameid):
     box = boxscore.BoxScore(game_id=gameid)

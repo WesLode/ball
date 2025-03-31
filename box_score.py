@@ -43,15 +43,17 @@ full_talbe = list()
 for games in match_code:
     if match_code[games]['status'] in [2,3]:
         game_boxScore = boxscore.BoxScore(match_code[games]['code']).game.get_dict()
+        # print(game_boxScore)
         json_to_file(f'boxScore_{games}',game_boxScore)
         get_score_board(game_boxScore)
         full_talbe += [get_score_table(game_boxScore)]
 
-y = pd.json_normalize(full_talbe)
-y = y.sort_values(by='Id', ascending=False)
-# print(y)
-with open('data/full_scoreboard.txt', 'w') as f1:
-    f1.write(y.to_markdown(index=True))
+if len(full_talbe) > 0:
+    y = pd.json_normalize(full_talbe)
+    y = y.sort_values(by='Id', ascending=False)
+    # print(y)
+    with open('data/full_scoreboard.txt', 'w') as f1:
+        f1.write(y.to_markdown(index=True))
 # json_to_file('full_scoreboard',y)
 
 
