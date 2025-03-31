@@ -61,3 +61,4 @@ scoreboard_data = board.get_dict()['scoreboard']['games']
 y = pd.json_normalize(data2)
 print(y )
 json_to_file('liveScore', board.get_dict())
+print(f'Data at data/liveScore.csv')

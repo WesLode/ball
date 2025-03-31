@@ -19,7 +19,7 @@ response = json.loads(res.text)
 data2 = list()
 
 for game in response["events"]:
-    if game['id'] == '401705613' or True:
+    if game['id'] == '401705647' or True:
         # print(game['id'])
         # print(game['status']['displayClock'])
         for team in game['competitions'][0]['competitors']:
@@ -30,8 +30,10 @@ for game in response["events"]:
             temp_dict['clock'] = game['status']['displayClock']
             temp_dict['team'] = team['team']['name']
             temp_dict['homeAway'] = team['homeAway']
-            for quarter in range(len(team['linescores'])):
-                temp_dict[f'quarter_{quarter + 1}'] = team['linescores'][quarter]['value']
+            temp_dict['status'] = game['status']['type']['state']
+            if game['status']['type']['state'] in ['in','post']:
+                for quarter in range(len(team['linescores'])):
+                    temp_dict[f'quarter_{quarter + 1}'] = team['linescores'][quarter]['value']
             temp_dict['Score'] = team['score']
             print(team['team']['name'])
             data2 += [temp_dict]
