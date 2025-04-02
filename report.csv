@@ -1,0 +1,14 @@
+info,path,bool
+name,name
+status,status
+starter,starter,1
+played,played,1
+minutes,statistics.minutesCalculated
+P_foul,statistics.foulsPersonal
+T_foul,statistics.foulsTechnical
+points,statistics.points
+reboundsTotal,statistics.reboundsTotal
+assists,statistics.assists
+blocks,statistics.blocks
+steals,statistics.steals
+turnovers,statistics.turnovers

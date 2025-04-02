@@ -1,0 +1,12 @@
+info,path
+id,gameId
+startTime,gameEt
+gameClock,gameStatusText
+homeTeam,homeTeam.teamTricode
+awayTeam,awayTeam.teamTricode
+homeScore,homeTeam.score
+awayScore,awayTeam.score
+homeTimeout,homeTeam.timeoutsRemaining
+awayTimeout,awayTeam.timeoutsRemaining
+homeQuarter,homeTeam.periods
+awayQuarter,awayTeam.periods
