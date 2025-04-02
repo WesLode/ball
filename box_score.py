@@ -69,6 +69,7 @@ def map_data(stat, csv_map):
     return player_dict
 
 def player_stats(game, d_dir):
+    print('•')
     result = dict()
     result['homeTeam'] = list()
     result['awayTeam'] = list()
@@ -76,14 +77,40 @@ def player_stats(game, d_dir):
     for side in team:
         for i in game[side]['players']:
             result[side] += [map_data(i,'report.csv')]
+    
+    
+    with open(f'data/{d_dir}/player/{game['gameCode'][-6::]}.md', 'w') as f1:
+        f1.write(f'# Player Stat\n\n')
+        for side in team:    
+            side_pd = pd.json_normalize(result[side])
+            for index, row in side_pd.iterrows():
+                if row['status'] == 'ACTIVE':
+                    side_pd.loc[index,'status'] = f'#'
+                else:
+                    side_pd.loc[index,'status'] = f''
 
-    for side in team:    
-        side_pd = pd.json_normalize(result[side])
-        side_pd['name'] = side_pd['name'].apply(
-            lambda x: unicodedata.normalize('NFD',x).encode('ascii', 'ignore')
-        )
-        with open(f'data/{d_dir}/player/{game[side]['teamName']}.md', 'w') as f1:
+                if row['starter'] =='1':
+                    side_pd.loc[index,'name'] = f'(s){row['name']}'
+                side_pd.loc[index, 'minutes'] = row['minutes'].replace('PT','')
+            side_pd['name'] = side_pd['name'].apply(
+                lambda x: unicodedata.normalize('NFD',x).encode('ascii', 'ignore')
+            )
+            side_pd['minutes'] = side_pd['minutes'].apply(
+                lambda x : x.replace('M','m')
+            )
+            side_pd.rename(columns={
+                'minutes': 'mins',
+                'status': '*',
+                'played':'1'
+            },inplace=True)
+            side_pd.drop(
+                columns=[
+                    'starter'
+                ],inplace=True
+            )
+            f1.write(f'## {side.upper()}\n\n')
             f1.write(side_pd.to_markdown(index=False))
+            f1.write('\n\n')
     
     return result
 
@@ -109,15 +136,16 @@ def score_table():
     full_talbe = list()
     today_game = today_day()
     match_code = today_game['gameCode']
-    match_code = {
-                "GSWMEM": {
-            "code": "0022401100",
-            "status": 3},
-                 "MINDEN": {
-            "code": "0022401102",
-            "status": 3
-            }
-    }
+    if False:
+        match_code = {
+                    "GSWORL": {
+                "code": "0022400845",
+                "status": 3},
+                    "MINDEN": {
+                "code": "0022401102",
+                "status": 3
+                }
+        }
     d_dir = today_game['gameDate']
     make_dir(f'data/{d_dir}/player')
     for games in match_code:
