@@ -6,9 +6,9 @@ played,played,1
 minutes,statistics.minutesCalculated
 P_foul,statistics.foulsPersonal
 T_foul,statistics.foulsTechnical
-points,statistics.points
-reboundsTotal,statistics.reboundsTotal
-assists,statistics.assists
-blocks,statistics.blocks
-steals,statistics.steals
-turnovers,statistics.turnovers
+PTS,statistics.points
+REB,statistics.reboundsTotal
+ASSIT,statistics.assists
+BLK,statistics.blocks
+STL,statistics.steals
+TO,statistics.turnovers

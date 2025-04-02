@@ -2,11 +2,15 @@ import json
 from pathlib import Path
 
 
-def json_to_file(f_name, sometext):
+def json_to_file(f_name, sometext, dir="data"):
     json_object = json.dumps(sometext, indent=4)
-    with open(f'data/{f_name}.json', "w") as outfile:
+    with open(f'{dir}/{f_name}.json', "w") as outfile:
         outfile.write(json_object)
 
+def add_to_list(my_list, new_item):
+    if new_item not in my_list:
+        my_list.append(new_item)
+    return my_list
 
 def make_dir(path):
     directory_path = Path(path)
