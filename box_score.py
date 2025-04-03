@@ -12,7 +12,7 @@ import json
 def game_summary(date, game):
     y = pd.json_normalize(game)
     y['id'] = y['id'].astype('int') % 100
-    y[['timeout','matchUp','score']] = None
+    y[['timeout','matchUp','score','sortlist']] = None
     y.set_index('id')
     quarter_score_full = list()
     quarter_header = list()
@@ -25,6 +25,7 @@ def game_summary(date, game):
         except:
             x=datetime.strptime("2025-04-01T19:30:00-04:00", "%Y-%m-%dT%H:%M:%S-04:00")
         y.loc[index,'startTime'] = x.strftime("%H:%M")
+        y.loc[index, 'sortlist'] = int(x.strftime("%H:%M").replace(':','')) * int(row['id'])
         quarter_score = dict()
         quarter_score['id'] = row['id']
         for i in range(len(row['awayQuarter'])):
@@ -46,7 +47,7 @@ def game_summary(date, game):
         'timeout': 'T/O',
         },inplace=True)
     
-    y.sort_values(by=['startTime','id'])
+    y.sort_values(by=['sortlist'],inplace=True)
     
     with open(f'data/{date}_gameSummary.txt', 'w') as f1:
         f1.write(y[[
