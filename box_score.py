@@ -17,9 +17,14 @@ def game_summary(date, game):
     quarter_score_full = list()
     quarter_header = list()
     for index, row in y.iterrows():
-        y.loc[index,'timeout'] = f'{row['awayTimeout']}-{row['homeTimeout']}'
-        y.loc[index,'matchUp'] = f'{row['awayTeam']}-{row['homeTeam']}'
-        y.loc[index,'score'] = f'{row['awayScore']}-{row['homeScore']}'
+        y.loc[index,'timeout'] = f'{row['awayTimeout']}\n{row['homeTimeout']}'
+        # Match up
+        h_team = row['homeTeam']
+        a_team = row['awayTeam']
+        h_score = row['homeScore']
+        a_score = row['awayScore']
+        y.loc[index,'matchUp'] = f'{a_team}  {a_score}\n{h_team}  {h_score}'
+
         try:
             x = datetime.strptime(row['startTime'], "%Y-%m-%dT%H:%M:%S-04:00")
         except:
@@ -31,17 +36,19 @@ def game_summary(date, game):
         for i in range(len(row['awayQuarter'])):
             if i <4:
                 quarter_header=add_to_list(quarter_header,f'Q{i+1}')
-                quarter_score[f'Q{i+1}'] = f'{row['awayQuarter'][i]['score']}-{row["homeQuarter"][i]['score']}'
+                quarter_score[f'Q{i+1}'] = f'{row['awayQuarter'][i]['score']}\n{row["homeQuarter"][i]['score']}'
             else:
                 quarter_header=add_to_list(quarter_header,f'OT{i-3}')
 
 
-                quarter_score[f'OT{i-3}'] = f'{row['awayQuarter'][i]['score']}-{row["homeQuarter"][i]['score']}'
+                quarter_score[f'OT{i-3}'] = f'{row['awayQuarter'][i]['score']}\n{row["homeQuarter"][i]['score']}'
         
         quarter_score_full +=[quarter_score]
     qq = pd.DataFrame(quarter_score_full)
     y = y.join(qq.set_index('id'), on='id')
-
+    # y_markdown_board = y.copy()
+    # print(y_markdown_board['matchUp'])
+    # print(type(y_markdown_board))
 
     y.rename(columns={
         'timeout': 'T/O',
@@ -51,12 +58,31 @@ def game_summary(date, game):
     
     with open(f'data/{date}_gameSummary.txt', 'w') as f1:
         f1.write(y[[
-            'startTime',
-            'matchUp',
             'gameClock',
+            # 'startTime',
+            'matchUp',
             'T/O',
-            'score',
-            ]+quarter_header].to_markdown(index=False))
+            # 'score',
+            ]+quarter_header]
+            .to_markdown(
+                index=False, 
+                tablefmt="grid",
+                stralign="center"
+            )
+        )
+    with open(f'data/{date}_gameSummary.html', 'w') as f1:
+        f1.write(
+            y[[
+            'gameClock',
+            # 'startTime',
+            'matchUp',
+            'T/O',
+            # 'score',
+            ]+quarter_header]
+            .to_html(
+                index=False
+            )
+        )
     return True
 
 def map_data(stat, csv_map):
@@ -110,7 +136,11 @@ def player_stats(game, d_dir):
                 ],inplace=True
             )
             f1.write(f'## {side.upper()}\n\n')
-            f1.write(side_pd.to_markdown(index=False))
+            f1.write(side_pd.to_markdown(
+                index=False,
+                tablefmt="grid",
+                stralign="center"
+            ))
             f1.write('\n\n')
     
     return result
