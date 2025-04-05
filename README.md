@@ -2,7 +2,16 @@
 
 # ball
 
-## Command
-```jupyter notebook```
+## Getting Started
+```bash
+pip install -r requirements.txt
+```
 
-```flask --app app run --debug```
+```bash
+jupyter notebook
+```
+
+## Starting the Webapp
+```bash
+flask --app app run --debug
+```
