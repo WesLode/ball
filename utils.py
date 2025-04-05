@@ -1,11 +1,19 @@
 import json
 from pathlib import Path
+import pandas as pd
 
 
 def json_to_file(f_name, sometext, dir="data"):
+    make_dir(dir)
     json_object = json.dumps(sometext, indent=4)
     with open(f'{dir}/{f_name}.json', "w") as outfile:
         outfile.write(json_object)
+
+def markdown_report(f_name, sometext, dir='report'):
+    make_dir(dir)
+    with open(f'{dir}/{f_name}.md', "w") as outfile:
+        outfile.write(sometext)
+    return True
 
 def add_to_list(my_list, new_item):
     if new_item not in my_list:

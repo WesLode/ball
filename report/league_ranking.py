@@ -10,7 +10,7 @@ import matplotlib as mpl
 import json
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils import json_to_file
+from utils import json_to_file, markdown_report
 
 
 with open('ref.json','r') as f1:
@@ -53,11 +53,8 @@ def export_standing():
 
     y = pd.json_normalize(Con_rank)
     y.rename(columns={'PlayoffRank': 'Standing'}, inplace=True)
-    eastern_rank = y.loc[y.Conference == "East"]
-    western_rank = y.loc[y.Conference == "West"]
 
     standing_col = [
-        # 'PlayoffRank',
         'Standing',
         'TeamCity',
         'TeamName',
@@ -65,12 +62,20 @@ def export_standing():
         'L10'
     ]
 
-    with open('data/Standing.txt', 'w') as f1:
-        f1.write('Western Conference\n')
-        f1.write(western_rank[standing_col].to_markdown(index=False))
-        f1.write('\n\n\n\n')
-        f1.write('Eastern Conference\n')
-        f1.write(eastern_rank[standing_col].to_markdown(index=False))
+    report_structure = {
+        "West": "Western Conference",
+        "East": "Eastern Conference",
+    }
+
+    standing_report = str()
+    standing_report = "# NBA Standing\n\n"
+    for i in report_structure:
+        standing_report+= f'## {report_structure[i]}\n\n'
+        standing_report += f'{y.loc[y.Conference == i][standing_col].to_markdown(index=False)}'
+        standing_report +='\n\n\n'
+
+    markdown_report('standing',standing_report,'app/static/report')
+    
 
 if __name__ == "__main__":
     export_standing()
