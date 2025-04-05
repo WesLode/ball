@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><Table></Table></title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Hello, Flask!</h1>
+    <h1>This is a heading</h1>
+<p style="font-size:50px;">This is a paragraph.</p>
+    <table border="1" class="dataframe">
+        <thead>
+          <tr style="text-align: middle;">
+            <th>gameClock</th>
+            <th>matchUp</th>
+            <th>T/O</th>
+            <th>Q1</th>
+            <th>Q2</th>
+            <th>Q3</th>
+            <th>Q4</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>7:00 pm ET</td>
+            <td>ORL  0<br>WAS  0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+          </tr>
+          <tr>
+            <td>7:30 pm ET</td>
+            <td>MIN  0<br>BKN  0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+          </tr>
+          <tr>
+            <td>7:30 pm ET</td>
+            <td>MEM  0<br>MIA  0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+          </tr>
+          <tr>
+            <td>7:00 pm ET</td>
+            <td>MIL  0<br>PHI  0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+          </tr>
+          <tr>
+            <td>7:30 pm ET</td>
+            <td>POR  0<br>TOR  0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+          </tr>
+          <tr>
+            <td>10:00 pm ET</td>
+            <td>GSW  0<br>LAL  0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+            <td>0<br>0</td>
+          </tr>
+
+          <p id="message">This page uses JavaScript.</p>
+    <button id="myButton">Click me</button>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    
+        </tbody>
+      </table>
+
+</body>
+</html>

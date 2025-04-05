@@ -8,15 +8,13 @@ import pandas as pd
 import numpy as np
 import matplotlib as mpl
 import json
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils import json_to_file
+
 
 with open('ref.json','r') as f1:
     all_header = json.load(f1)
-
-
-def json_to_file(f_name, sometext):
-    json_object = json.dumps(sometext, indent=4)
-    with open(f'data/{f_name}.json', "w") as outfile:
-        outfile.write(json_object)
 
 
 data_header =[

@@ -5,6 +5,10 @@ import requests
 import json 
 import unicodedata
 from nba_api.live.nba.endpoints import boxscore, scoreboard
+
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from utils import json_to_file, make_dir, get_nested, add_to_list
 import pandas as pd
 import json
@@ -103,7 +107,7 @@ def player_stats(game, d_dir):
     team = ['homeTeam', 'awayTeam']
     for side in team:
         for i in game[side]['players']:
-            result[side] += [map_data(i,'report.csv')]
+            result[side] += [map_data(i,'map/report.csv')]
     
     
     with open(f'data/{d_dir}/player/{game['gameCode'][-6::]}.md', 'w') as f1:
@@ -187,7 +191,7 @@ def score_table():
             game_boxScore = match_code[games]['games']
             game_boxScore['gameEt'] = game_boxScore['gameEt'].replace('Z','-04:00')
         json_to_file(f'{d_dir}/boxScore_{games}',game_boxScore)
-        full_talbe += [map_data(game_boxScore, 'scoreboard.csv')]
+        full_talbe += [map_data(game_boxScore, 'map/scoreboard.csv')]
 
 
     if len(full_talbe) > 0:

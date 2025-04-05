@@ -27,6 +27,8 @@ def get_nested(data, path):
             # value = data.get(element)
             value = data[element]
             return value if len(path) == 1 else get_nested(value, path[1:])
+def test_echo():
+    print('itwokr')
 
 if __name__ == "__main__":
     print('wat')
