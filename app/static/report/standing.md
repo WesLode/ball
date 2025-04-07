@@ -9,10 +9,10 @@
 |          3 | Los Angeles   | Lakers        | 47-30    | 5-5   |
 |          4 | Denver        | Nuggets       | 47-31    | 4-6   |
 |          5 | Golden State  | Warriors      | 46-31    | 7-3   |
-|          6 | Minnesota     | Timberwolves  | 45-32    | 7-3   |
-|          7 | LA            | Clippers      | 45-32    | 8-2   |
-|          8 | Memphis       | Grizzlies     | 45-32    | 3-7   |
-|          9 | Dallas        | Mavericks     | 38-40    | 5-5   |
+|          6 | Minnesota     | Timberwolves  | 46-32    | 7-3   |
+|          7 | LA            | Clippers      | 46-32    | 8-2   |
+|          8 | Memphis       | Grizzlies     | 46-32    | 3-7   |
+|          9 | Dallas        | Mavericks     | 38-41    | 5-5   |
 |         10 | Sacramento    | Kings         | 37-40    | 3-7   |
 |         11 | Phoenix       | Suns          | 35-42    | 4-6   |
 |         12 | Portland      | Trail Blazers | 34-44    | 5-5   |
@@ -27,18 +27,18 @@
 |-----------:|:-------------|:-----------|:---------|:------|
 |          1 | Cleveland    | Cavaliers  | 62-15    | 6-4   |
 |          2 | Boston       | Celtics    | 57-20    | 9-1   |
-|          3 | New York     | Knicks     | 48-28    | 6-4   |
+|          3 | New York     | Knicks     | 49-28    | 6-4   |
 |          4 | Indiana      | Pacers     | 46-31    | 8-2   |
-|          5 | Detroit      | Pistons    | 43-34    | 6-4   |
-|          6 | Milwaukee    | Bucks      | 42-34    | 4-6   |
+|          5 | Milwaukee    | Bucks      | 43-34    | 5-5   |
+|          6 | Detroit      | Pistons    | 43-35    | 6-4   |
 |          7 | Orlando      | Magic      | 38-40    | 7-3   |
-|          8 | Atlanta      | Hawks      | 36-40    | 4-6   |
-|          9 | Chicago      | Bulls      | 35-42    | 7-3   |
-|         10 | Miami        | Heat       | 35-42    | 6-4   |
+|          8 | Atlanta      | Hawks      | 36-41    | 4-6   |
+|          9 | Chicago      | Bulls      | 36-42    | 7-3   |
+|         10 | Miami        | Heat       | 35-43    | 6-4   |
 |         11 | Toronto      | Raptors    | 28-50    | 4-6   |
 |         12 | Brooklyn     | Nets       | 25-52    | 3-7   |
-|         13 | Philadelphia | 76ers      | 23-54    | 0-10  |
-|         14 | Charlotte    | Hornets    | 19-58    | 2-8   |
+|         13 | Philadelphia | 76ers      | 23-55    | 0-10  |
+|         14 | Charlotte    | Hornets    | 19-59    | 2-8   |
 |         15 | Washington   | Wizards    | 17-60    | 2-8   |
 
 

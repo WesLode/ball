@@ -1,9 +1,12 @@
 import json
 from pathlib import Path
+import unicodedata
 import pandas as pd
 
+def clean_utf8(x):
+    return unicodedata.normalize('NFD',x).encode('ascii', 'ignore')
 
-def json_to_file(f_name, sometext, dir="data"):
+def export_to_file(f_name, sometext, dir="data"):
     make_dir(dir)
     json_object = json.dumps(sometext, indent=4)
     with open(f'{dir}/{f_name}.json', "w") as outfile:

@@ -9,7 +9,7 @@ from nba_api.live.nba.endpoints import boxscore, scoreboard
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from utils import json_to_file, make_dir, get_nested, add_to_list
+from utils import export_to_file, make_dir, get_nested, add_to_list
 import pandas as pd
 import json
 
@@ -87,6 +87,7 @@ def game_summary(date, game):
                 index=False
             )
         )
+    print(f'Report at /data/{date}_gameSummary.txt')
     return True
 
 def map_data(stat, csv_map):
@@ -110,22 +111,39 @@ def player_stats(game, d_dir):
             result[side] += [map_data(i,'map/report.csv')]
     
     
-    with open(f'data/{d_dir}/player/{game['gameCode'][-6::]}.md', 'w') as f1:
+    with open(f'data/{d_dir}/player/{game['gameCode'][-6::]}.md', 'w',encoding="utf-8") as f1:
+
         f1.write(f'# Player Stat\n\n')
+
+        f1.write(f'## Game •Summary\n\n')
+
+        game_df = pd.json_normalize(game)
+        f1.write(game_df[[
+            'gameStatusText',
+            'homeTeam.teamTricode',
+            'homeTeam.score',
+            'awayTeam.teamTricode',
+            'awayTeam.score',
+        ]].to_markdown(
+                index=False,
+                tablefmt="grid",
+                stralign="center"
+            ))
+        
+        f1.write('\n\n')
+        
+
         for side in team:    
             side_pd = pd.json_normalize(result[side])
             for index, row in side_pd.iterrows():
                 if row['status'] == 'ACTIVE':
-                    side_pd.loc[index,'status'] = f'#'
+                    side_pd.loc[index,'status'] = f'•'
                 else:
                     side_pd.loc[index,'status'] = f''
 
                 if row['starter'] =='1':
                     side_pd.loc[index,'name'] = f'(s){row['name']}'
                 side_pd.loc[index, 'minutes'] = row['minutes'].replace('PT','')
-            side_pd['name'] = side_pd['name'].apply(
-                lambda x: unicodedata.normalize('NFD',x).encode('ascii', 'ignore')
-            )
             side_pd['minutes'] = side_pd['minutes'].apply(
                 lambda x : x.replace('M','m')
             )
@@ -164,7 +182,7 @@ def today_day():
 
     result['gameDate'] = board['scoreboard']['gameDate'].replace('-','')
     result['gameCode'] = match_code
-    json_to_file(f'{result['gameDate']}_game',result)
+    export_to_file(f'{result['gameDate']}_game',result)
     return result
 
 def score_table():
@@ -190,7 +208,7 @@ def score_table():
         else:
             game_boxScore = match_code[games]['games']
             game_boxScore['gameEt'] = game_boxScore['gameEt'].replace('Z','-04:00')
-        json_to_file(f'{d_dir}/boxScore_{games}',game_boxScore)
+        export_to_file(f'{d_dir}/boxScore_{games}',game_boxScore)
         full_talbe += [map_data(game_boxScore, 'map/scoreboard.csv')]
 
 

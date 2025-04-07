@@ -5,7 +5,7 @@ from nba_api.live.nba.endpoints import boxscore
 
 import pandas as pd
 # import json
-from utils import json_to_file
+from utils import export_to_file
 # print(date.today())
 
 # def json_to_file(f_name, sometext):
@@ -17,7 +17,7 @@ def box_score_search(gameid):
     box = boxscore.BoxScore(game_id=gameid)
     x = box.get_dict()['game']['homeTeam']
     x = box.get_dict()
-    json_to_file("box_Score", x)
+    export_to_file("box_Score", x)
 
 quarter_dic = {
     "teamName":None,
@@ -61,5 +61,5 @@ scoreboard_data = board.get_dict()['scoreboard']['games']
 # y = pd.json_normalize(board.get_dict()['scoreboard']['games'])
 y = pd.json_normalize(data2)
 print(y )
-json_to_file('liveScore', board.get_dict())
+export_to_file('liveScore', board.get_dict())
 print(f'Data at data/liveScore.csv')

@@ -10,7 +10,7 @@ import matplotlib as mpl
 import json
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils import json_to_file, markdown_report
+from utils import export_to_file, markdown_report
 
 
 with open('ref.json','r') as f1:
@@ -34,7 +34,7 @@ data_header =[
 def export_standing():
     col_map = dict()
     raw_data = leaguestandingsv3.LeagueStandingsV3().get_dict()
-    json_to_file('rawdata',raw_data)
+    export_to_file('rawdata',raw_data)
     standings_header = raw_data['resultSets'][0]['headers']
 
 
