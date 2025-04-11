@@ -13,8 +13,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils import export_to_file, markdown_report
 
 
-with open('ref.json','r') as f1:
-    all_header = json.load(f1)
+# with open('ref.json','r') as f1:
+#     all_header = json.load(f1)
 
 
 data_header =[
@@ -79,7 +79,7 @@ def export_standing():
 
 if __name__ == "__main__":
     export_standing()
-    print(len(all_header['all_header']))
+    # print(len(all_header['all_header']))
     print(f'gg')
 
 
