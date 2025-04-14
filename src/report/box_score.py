@@ -28,6 +28,7 @@ def game_summary(date, game):
         h_score = row['homeScore']
         a_score = row['awayScore']
         y.loc[index,'matchUp'] = f'{a_team}  {a_score}\n{h_team}  {h_score}'
+        print(f'• {a_team}  {a_score}:{h_score} {h_team}')
 
         try:
             x = datetime.strptime(row['startTime'], "%Y-%m-%dT%H:%M:%S-04:00")
@@ -50,9 +51,7 @@ def game_summary(date, game):
         quarter_score_full +=[quarter_score]
     qq = pd.DataFrame(quarter_score_full)
     y = y.join(qq.set_index('id'), on='id')
-    # y_markdown_board = y.copy()
-    # print(y_markdown_board['matchUp'])
-    # print(type(y_markdown_board))
+
 
     y.rename(columns={
         'timeout': 'T/O',
@@ -60,7 +59,7 @@ def game_summary(date, game):
     
     y.sort_values(by=['sortlist'],inplace=True)
     
-    with open(f'data/{date}_gameSummary.txt', 'w') as f1:
+    with open(f'data/{date}_gameSummary.md', 'w') as f1:
         f1.write(y[[
             'gameClock',
             # 'startTime',
@@ -74,20 +73,7 @@ def game_summary(date, game):
                 stralign="center"
             )
         )
-    with open(f'data/{date}_gameSummary.html', 'w') as f1:
-        f1.write(
-            y[[
-            'gameClock',
-            # 'startTime',
-            'matchUp',
-            'T/O',
-            # 'score',
-            ]+quarter_header]
-            .to_html(
-                index=False
-            )
-        )
-    print(f'Report at /data/{date}_gameSummary.txt')
+    print(f'Report at /data/{date}_gameSummary.md')
     return True
 
 def map_data(stat, csv_map):
@@ -101,7 +87,6 @@ def map_data(stat, csv_map):
     return player_dict
 
 def player_stats(game, d_dir):
-    print('•')
     result = dict()
     result['homeTeam'] = list()
     result['awayTeam'] = list()
@@ -111,7 +96,7 @@ def player_stats(game, d_dir):
             result[side] += [map_data(i,'map/report.csv')]
     
     
-    with open(f'data/{d_dir}/player/{game['gameCode'][-6::]}.md', 'w',encoding="utf-8") as f1:
+    with open(f'data/{d_dir}/{game['gameCode'][-6::]}.md', 'w',encoding="utf-8") as f1:
 
         f1.write(f'# Player Stat\n\n')
 
@@ -182,7 +167,7 @@ def today_day():
 
     result['gameDate'] = board['scoreboard']['gameDate'].replace('-','')
     result['gameCode'] = match_code
-    export_to_file(f'{result['gameDate']}_game',result)
+    export_to_file(f'{result['gameDate']}_game',result,f'data/{result['gameDate']}/raw')
     return result
 
 def score_table():
@@ -200,7 +185,6 @@ def score_table():
                 }
         }
     d_dir = today_game['gameDate']
-    make_dir(f'data/{d_dir}/player')
     for games in match_code:
         if match_code[games]['status'] in [2,3]:
             game_boxScore = boxscore.BoxScore(match_code[games]['code']).game.get_dict()
@@ -208,7 +192,7 @@ def score_table():
         else:
             game_boxScore = match_code[games]['games']
             game_boxScore['gameEt'] = game_boxScore['gameEt'].replace('Z','-04:00')
-        export_to_file(f'{d_dir}/boxScore_{games}',game_boxScore)
+        # export_to_file(f'{d_dir}/boxScore_{games}',game_boxScore)
         full_talbe += [map_data(game_boxScore, 'map/scoreboard.csv')]
 
 

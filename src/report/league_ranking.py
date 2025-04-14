@@ -9,8 +9,7 @@ import numpy as np
 import matplotlib as mpl
 import json
 import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils import export_to_file, markdown_report
+from utils import export_to_file, markdown_report, get_logger # type: ignore
 
 
 # with open('ref.json','r') as f1:
@@ -31,10 +30,14 @@ data_header =[
     "Conference",
 ]
 
+
+log = get_logger('NBA Standing')
+
 def export_standing():
+
     col_map = dict()
     raw_data = leaguestandingsv3.LeagueStandingsV3().get_dict()
-    export_to_file('rawdata',raw_data)
+    # export_to_file('rawdata',raw_data)
     standings_header = raw_data['resultSets'][0]['headers']
 
 
@@ -74,12 +77,14 @@ def export_standing():
         standing_report += f'{y.loc[y.Conference == i][standing_col].to_markdown(index=False)}'
         standing_report +='\n\n\n'
 
-    markdown_report('standing',standing_report,'app/static/report')
+    output_dir = ['data/output']
+    for i in output_dir:
+        markdown_report('standing',standing_report,i)
+        log.info(f'standing.md is creataed at {i}')
     
 
 if __name__ == "__main__":
-    export_standing()
-    # print(len(all_header['all_header']))
-    print(f'gg')
+    # export_standing(True)
+    print(f'Test Complete')
 
 
