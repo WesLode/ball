@@ -21,7 +21,7 @@ def game_summary(date, game):
     quarter_score_full = list()
     quarter_header = list()
     for index, row in y.iterrows():
-        y.loc[index,'timeout'] = f'{row['awayTimeout']}\n{row['homeTimeout']}'
+        y.loc[index,'timeout'] = f"{row['awayTimeout']}\n{row['homeTimeout']}"
         # Match up
         h_team = row['homeTeam']
         a_team = row['awayTeam']
@@ -41,12 +41,12 @@ def game_summary(date, game):
         for i in range(len(row['awayQuarter'])):
             if i <4:
                 quarter_header=add_to_list(quarter_header,f'Q{i+1}')
-                quarter_score[f'Q{i+1}'] = f'{row['awayQuarter'][i]['score']}\n{row["homeQuarter"][i]['score']}'
+                quarter_score[f'Q{i+1}'] = f"{row['awayQuarter'][i]['score']}\n{row['homeQuarter'][i]['score']}"
             else:
                 quarter_header=add_to_list(quarter_header,f'OT{i-3}')
 
 
-                quarter_score[f'OT{i-3}'] = f'{row['awayQuarter'][i]['score']}\n{row["homeQuarter"][i]['score']}'
+                quarter_score[f'OT{i-3}'] = f"{row['awayQuarter'][i]['score']}\n{row['homeQuarter'][i]['score']}"
         
         quarter_score_full +=[quarter_score]
     qq = pd.DataFrame(quarter_score_full)
@@ -81,9 +81,9 @@ def map_data(stat, csv_map):
     path_map = pd.read_csv(csv_map)
     for index, row in path_map.iterrows():
         try:
-            player_dict[f'{row['info']}'] = get_nested(stat, row['path'].split("."))
+            player_dict[f"{row['info']}"] = get_nested(stat, row['path'].split("."))
         except KeyError:
-            player_dict[f'{row['info']}'] = None
+            player_dict[f"{row['info']}"] = None
     return player_dict
 
 def player_stats(game, d_dir):
@@ -96,7 +96,7 @@ def player_stats(game, d_dir):
             result[side] += [map_data(i,'map/report.csv')]
     
     
-    with open(f'data/{d_dir}/{game['gameCode'][-6::]}.md', 'w',encoding="utf-8") as f1:
+    with open(f"data/{d_dir}/{game['gameCode'][-6::]}.md", 'w',encoding="utf-8") as f1:
 
         f1.write(f'# Player Stat\n\n')
 
@@ -127,7 +127,7 @@ def player_stats(game, d_dir):
                     side_pd.loc[index,'status'] = f''
 
                 if row['starter'] =='1':
-                    side_pd.loc[index,'name'] = f'(s){row['name']}'
+                    side_pd.loc[index,'name'] = f"(s){row['name']}"
                 side_pd.loc[index, 'minutes'] = row['minutes'].replace('PT','')
             side_pd['minutes'] = side_pd['minutes'].apply(
                 lambda x : x.replace('M','m')
@@ -167,7 +167,7 @@ def today_day():
 
     result['gameDate'] = board['scoreboard']['gameDate'].replace('-','')
     result['gameCode'] = match_code
-    export_to_file(f'{result['gameDate']}_game',result,f'data/{result['gameDate']}/raw')
+    export_to_file(f"{result['gameDate']}_game",result,f"data/{result['gameDate']}/raw")
     return result
 
 def score_table():

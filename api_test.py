@@ -1,20 +1,9 @@
 import requests
+import json
 
-response = requests.post(
-    f"https://api.stability.ai/v2beta/stable-image/generate/sd3",
-    headers={
-        "authorization": f"Bearer sk-MYAPIKEY",
-        "accept": "image/*"
-    },
-    files={"none": ''},
-    data={
-        "prompt": "Lighthouse on a cliff overlooking the ocean",
-        "output_format": "jpeg",
-    },
-)
+api_link = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard'
 
-if response.status_code == 200:
-    with open("./lighthouse.jpeg", 'wb') as file:
-        file.write(response.content)
-else:
-    raise Exception(str(response.json()))
+res = requests.get(api_link)
+
+# print(res)
+response = json.loads(res.text)
