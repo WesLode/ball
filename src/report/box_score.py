@@ -7,7 +7,7 @@ import unicodedata
 from nba_api.live.nba.endpoints import boxscore, scoreboard
 
 import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from utils import export_to_file, make_dir, get_nested, add_to_list
 import pandas as pd
@@ -58,6 +58,18 @@ def game_summary(date, game):
         },inplace=True)
     
     y.sort_values(by=['sortlist'],inplace=True)
+
+    md_report = y[[
+            'gameClock',
+            # 'startTime',
+            'matchUp',
+            'T/O',
+            # 'score',
+            ]+quarter_header].to_markdown(
+                index=False, 
+                tablefmt="grid",
+                stralign="center"
+            )
     
     with open(f'data/{date}_gameSummary.md', 'w') as f1:
         f1.write(y[[
@@ -74,7 +86,7 @@ def game_summary(date, game):
             )
         )
     print(f'Report at /data/{date}_gameSummary.md')
-    return True
+    return md_report
 
 def map_data(stat, csv_map):
     player_dict = dict()
@@ -96,6 +108,7 @@ def player_stats(game, d_dir):
             result[side] += [map_data(i,'map/report.csv')]
     
     
+    export_to_file('test_game',game)
     with open(f"data/{d_dir}/{game['gameCode'][-6::]}.md", 'w',encoding="utf-8") as f1:
 
         f1.write(f'# Player Stat\n\n')
@@ -103,6 +116,7 @@ def player_stats(game, d_dir):
         f1.write(f'## Game •Summary\n\n')
 
         game_df = pd.json_normalize(game)
+
         f1.write(game_df[[
             'gameStatusText',
             'homeTeam.teamTricode',
@@ -185,6 +199,7 @@ def score_table():
                 }
         }
     d_dir = today_game['gameDate']
+    match_status = []
     for games in match_code:
         if match_code[games]['status'] in [2,3]:
             game_boxScore = boxscore.BoxScore(match_code[games]['code']).game.get_dict()
@@ -194,10 +209,12 @@ def score_table():
             game_boxScore['gameEt'] = game_boxScore['gameEt'].replace('Z','-04:00')
         # export_to_file(f'{d_dir}/boxScore_{games}',game_boxScore)
         full_talbe += [map_data(game_boxScore, 'map/scoreboard.csv')]
-
+        match_status += [match_code[games]['status']]
 
     if len(full_talbe) > 0:
-        game_summary(d_dir, full_talbe)
+        result = game_summary(d_dir, full_talbe)
+    
+    return result, match_status
 
 
 
