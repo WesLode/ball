@@ -169,3 +169,5 @@ interview/
 localtest*
 request_testing.py
 exercise*
+db_param_local.yml
+output/*

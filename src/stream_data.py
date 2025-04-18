@@ -24,8 +24,7 @@ producer = Producer(config)
 
 
 x, x_status =score_table()
-topic = 'mytopji'
-print(x_status)
+topic = 'LiveScore'
 
 def acked(err, msg):
     if err is not None:
@@ -36,14 +35,15 @@ def acked(err, msg):
 # while 
 
 try:
-    while min(x_status) != 3:
+    while min(x_status) != 4:
         x, x_status =score_table()
 
         producer.produce(topic, key="Peanut", value=x, callback=acked)
 
         producer.poll(1)
         time.sleep(5)
+    print('The Game has ended')
 
 
 except KeyboardInterrupt:
-    print("\nPolling stopped.")
+    print("Polling stopped.")
